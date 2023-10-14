@@ -1,0 +1,25 @@
+[package]
+name = "downloader"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+backup-config = {version = "0.1.1",  git = "https://github.com/OMGeeky/backup_config.git" }
+local-db = {version = "0.1",  git = "https://github.com/OMGeeky/twitch_backup.local_db.git"}
+reqwest-backoff = {version = "0.1",  git = "https://github.com/OMGeeky/twba_reqwest_backoff.git"}
+
+
+tracing-subscriber = "0.3"
+tracing = "0.1"
+tokio = { version = "1.33", features = ["rt", "rt-multi-thread", "macros"] }
+
+thiserror = "1.0"
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+reqwest = "0.11"
+chrono = "0.4"
+futures = "0.3"
+futures-util = "0.3"
