@@ -2,14 +2,20 @@ use reqwest_backoff::ReqwestBackoffError;
 use std::path::PathBuf;
 
 #[derive(Debug, thiserror::Error)]
-pub enum DownloadError {
+pub enum DownloaderError {
+    #[error("Video not found: {0}")]
+    VideoNotFound(String),
+
+    #[error("User not found: {0}")]
+    UserNotFound(i32),
+
     #[error("Malformed playlist")]
     MalformedPlaylist(#[from] MalformedPlaylistError),
 
     #[error("Backoff error")]
     Backoff(#[from] ReqwestBackoffError),
     #[error("Database Error")]
-    Database(#[from] local_db::re_exports::sea_orm::errors::DbErr),
+    Database(#[from] local_db::re_exports::sea_orm::DbErr),
 
     #[error("Reqwest error")]
     Reqwest(#[from] reqwest::Error),

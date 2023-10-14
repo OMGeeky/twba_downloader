@@ -1,4 +1,4 @@
-pub use crate::errors::DownloadError;
+pub use crate::errors::DownloaderError;
 // pub(crate) use anyhow::Result;
 pub(crate) use backup_config::prelude::*;
 use std::fmt::Debug;
@@ -13,4 +13,4 @@ pub(crate) use std::result::Result as StdResult;
 pub trait DIntoString: Into<String> + Debug {}
 impl<T> DIntoString for T where T: Into<String> + Debug {}
 
-pub type Result<T> = StdResult<T, DownloadError>;
+pub type Result<T> = StdResult<T, DownloaderError>;
