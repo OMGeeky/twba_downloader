@@ -1,11 +1,11 @@
 use crate::prelude::*;
 use crate::twitch::TwitchClient;
-use local_db::prelude::*;
-use local_db::re_exports::sea_orm::ActiveValue::Set;
-use local_db::re_exports::sea_orm::{
+use std::path::Path;
+use twba_local_db::prelude::*;
+use twba_local_db::re_exports::sea_orm::ActiveValue::Set;
+use twba_local_db::re_exports::sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
 };
-use std::path::Path;
 
 #[derive(Debug)]
 pub struct DownloaderClient {
@@ -19,12 +19,14 @@ impl DownloaderClient {
     }
     #[tracing::instrument(skip(self))]
     pub async fn download_not_downloaded_videos(&self) -> Result<()> {
+        info!("Downloading not downloaded videos");
         let output_folder: &Path =
             Path::new(self.twitch_client.config.download_folder_path.as_str());
         let videos = Videos::find()
             .filter(VideosColumn::Status.eq(Status::NotStarted))
             .all(&self.db)
             .await?;
+        info!("Found {} videos to download", videos.len());
 
         for video in videos {
             let id = video.id;
@@ -39,6 +41,7 @@ impl DownloaderClient {
                 info!("Downloaded video with id: {}", id);
             }
         }
+        info!("Finished downloading videos");
 
         Ok(())
     }

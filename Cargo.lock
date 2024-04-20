@@ -1146,19 +1146,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "01cda141df6706de531b6c46c3a33ecca755538219bd484262fa09410c13539c"
 
 [[package]]
-name = "local-db"
-version = "0.2.1"
-source = "git+https://github.com/OMGeeky/twitch_backup.local_db.git#0a15447f4d5e5093c27aa89936ecedfa9961e5be"
-dependencies = [
- "futures",
- "sea-orm",
- "sea-orm-migration",
- "thiserror",
- "tokio",
- "tracing",
-]
-
-[[package]]
 name = "lock_api"
 version = "0.4.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2951,7 +2938,6 @@ dependencies = [
  "chrono",
  "futures",
  "futures-util",
- "local-db",
  "reqwest",
  "serde",
  "serde_json",
@@ -2959,12 +2945,27 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-subscriber",
+ "twba-local-db",
  "twba-reqwest-backoff",
+]
+
+[[package]]
+name = "twba-local-db"
+version = "0.2.1"
+source = "git+https://github.com/OMGeeky/twitch_backup.local_db.git#7ad57a8bea84f2889b21ac337de8e36194d2fee7"
+dependencies = [
+ "futures",
+ "sea-orm",
+ "sea-orm-migration",
+ "thiserror",
+ "tokio",
+ "tracing",
 ]
 
 [[package]]
 name = "twba-reqwest-backoff"
 version = "0.1.2"
+source = "git+https://github.com/OMGeeky/twba_reqwest_backoff.git#916e98a2e6cfda593b23bc4e76b137cb92660463"
 dependencies = [
  "chrono",
  "reqwest",

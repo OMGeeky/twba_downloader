@@ -1,5 +1,4 @@
 use futures_util::{StreamExt, TryStreamExt};
-use twba_reqwest_backoff::ReqwestClient;
 use serde_json::json;
 use std::collections::HashMap;
 use std::fmt::Debug;
@@ -9,6 +8,7 @@ use tokio::io::AsyncWriteExt;
 use tokio::process::Command;
 use tokio::time::Instant;
 use tracing::instrument;
+use twba_reqwest_backoff::ReqwestClient;
 
 use crate::errors::*;
 use crate::prelude::*;

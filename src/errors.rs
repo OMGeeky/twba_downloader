@@ -1,5 +1,5 @@
-use twba_reqwest_backoff::ReqwestBackoffError;
 use std::path::PathBuf;
+use twba_reqwest_backoff::ReqwestBackoffError;
 
 #[derive(Debug, thiserror::Error)]
 pub enum DownloaderError {
@@ -15,7 +15,7 @@ pub enum DownloaderError {
     #[error("Backoff error")]
     Backoff(#[from] ReqwestBackoffError),
     #[error("Database Error")]
-    Database(#[from] local_db::re_exports::sea_orm::DbErr),
+    Database(#[from] twba_local_db::re_exports::sea_orm::DbErr),
 
     #[error("Reqwest error")]
     Reqwest(#[from] reqwest::Error),
