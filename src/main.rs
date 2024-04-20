@@ -15,7 +15,14 @@ async fn main() -> Result<()> {
         .init();
     info!("Hello, world!");
 
-    run().await?;
+    let x = run().await;
+    x.or_else(|e| match e {
+        DownloaderError::LoadConfig(e) => {
+            println!("Error while loading config: {}", e);
+            Ok(())
+        }
+        e => Err(e),
+    })?;
 
     info!("Bye");
     Ok(())
@@ -28,7 +35,10 @@ async fn run() -> Result<()> {
         .file("./settings.toml")
         .file("/home/omgeeky/twba/config.toml")
         .load()
-        .map_err(|e| DownloaderError::LoadConfig(e.into()))?;
+        .map_err(|e| {
+            error!("Failed to load config: {:?}", e);
+            DownloaderError::LoadConfig(e.into())
+        })?;
 
     let db = local_db::open_database(Some(&conf.db_url)).await?;
     local_db::migrate_db(&db).await?;
