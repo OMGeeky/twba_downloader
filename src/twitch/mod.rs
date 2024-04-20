@@ -1,5 +1,5 @@
 use futures_util::{StreamExt, TryStreamExt};
-use reqwest_backoff::ReqwestClient;
+use twba_reqwest_backoff::ReqwestClient;
 use serde_json::json;
 use std::collections::HashMap;
 use std::fmt::Debug;
@@ -111,7 +111,6 @@ impl TwitchClient {
         let it = parts
             .into_iter()
             .map(|part| {
-                let folder_path = folder_path.clone();
                 let client = self.client.clone();
                 let url = base_url.clone();
                 async move {

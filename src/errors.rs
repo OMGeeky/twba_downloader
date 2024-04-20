@@ -1,4 +1,4 @@
-use reqwest_backoff::ReqwestBackoffError;
+use twba_reqwest_backoff::ReqwestBackoffError;
 use std::path::PathBuf;
 
 #[derive(Debug, thiserror::Error)]
