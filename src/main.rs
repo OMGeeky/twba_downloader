@@ -33,7 +33,7 @@ async fn run() -> Result<()> {
     let conf = Conf::builder()
         .env()
         .file("./settings.toml")
-        .file("/home/omgeeky/twba/config.toml")
+        .file(shellexpand::tilde("~/twba/config.toml").to_string())
         .load()
         .map_err(|e| {
             error!("Failed to load config: {:?}", e);

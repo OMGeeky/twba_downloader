@@ -36,12 +36,13 @@ impl TwitchClient {
     #[tracing::instrument(skip(self))]
     pub async fn download_video<VideoId: DIntoString, QUALITY: DIntoString>(
         &self,
+        id: i32,
         video_id: VideoId,
         quality: QUALITY,
         output_folder: &Path,
     ) -> Result<PathBuf> {
         let video_id = video_id.into();
-        let folder_path = output_folder.join(&video_id);
+        let folder_path = output_folder.join(id.to_string());
         let final_path = output_folder.join(format!("{}.mp4", video_id));
         if final_path.exists() {
             return Err(DownloadFileError::TargetAlreadyExists(final_path).into());
