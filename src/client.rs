@@ -70,13 +70,14 @@ impl DownloaderClient {
         quality: &str,
         output_folder: &Path,
     ) -> Result<()> {
+        let id = video.id;
         let video_id = video.twitch_id.clone();
         let mut video = video.into_active_model();
         video.status = Set(Status::Downloading);
         video.clone().update(&self.db).await?;
         let download_result = self
             .twitch_client
-            .download_video(video_id, quality, output_folder)
+            .download_video(id, video_id, quality, output_folder)
             .await;
         match download_result {
             Ok(path) => {

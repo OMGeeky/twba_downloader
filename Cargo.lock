@@ -201,15 +201,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "backup-config"
-version = "0.1.3"
-source = "git+https://github.com/OMGeeky/backup_config.git#ba18de57f80ca3e59a1da612f7c8a9f3aaa403e1"
-dependencies = [
- "confique",
- "serde",
-]
-
-[[package]]
 name = "base64"
 version = "0.21.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2987,11 +2978,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
+name = "twba-backup-config"
+version = "0.1.3"
+source = "git+https://github.com/OMGeeky/backup_config.git#88645945830d3076478827503fef43541a2f047e"
+dependencies = [
+ "confique",
+ "serde",
+]
+
+[[package]]
 name = "twba-downloader"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "backup-config",
  "chrono",
  "futures",
  "futures-util",
@@ -3003,6 +3002,7 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-subscriber",
+ "twba-backup-config",
  "twba-local-db",
  "twba-reqwest-backoff",
 ]
@@ -3010,6 +3010,7 @@ dependencies = [
 [[package]]
 name = "twba-local-db"
 version = "0.2.1"
+source = "git+https://github.com/OMGeeky/twitch_backup.local_db.git#3cbb175182d5f01b150ca07ad184ef99315f45c5"
 dependencies = [
  "futures",
  "sea-orm",
