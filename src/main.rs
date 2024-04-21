@@ -34,6 +34,7 @@ async fn run() -> Result<()> {
         .env()
         .file("./settings.toml")
         .file(shellexpand::tilde("~/twba/config.toml").to_string())
+        .file(std::env::var("TWBA_CONFIG").unwrap_or_else(|_| "~/twba/config.toml".to_string()))
         .load()
         .map_err(|e| {
             error!("Failed to load config: {:?}", e);
