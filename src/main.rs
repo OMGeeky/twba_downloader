@@ -1,5 +1,6 @@
 pub mod prelude;
 
+use twba_backup_config::get_default_builder;
 use prelude::*;
 pub mod client;
 mod errors;
@@ -7,12 +8,7 @@ pub mod twitch;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::INFO)
-        .with_env_filter(
-            "sea_orm=warn,sea_orm_migration=warn,sqlx=warn,twba_downloader=trace,local_db=warn,twba_reqwest_backoff=warn",
-        )
-        .init();
+    let _guard = twba_common::init_tracing("twba_downloader");
     info!("Hello, world!");
 
     let x = run().await;
@@ -30,11 +26,7 @@ async fn main() -> Result<()> {
 
 #[tracing::instrument]
 async fn run() -> Result<()> {
-    let conf = Conf::builder()
-        .env()
-        .file("./settings.toml")
-        .file(shellexpand::tilde("~/twba/config.toml").to_string())
-        .file(std::env::var("TWBA_CONFIG").unwrap_or_else(|_| "~/twba/config.toml".to_string()))
+    let conf = get_default_builder()
         .load()
         .map_err(|e| {
             error!("Failed to load config: {:?}", e);
