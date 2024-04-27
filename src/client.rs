@@ -3,7 +3,7 @@ use crate::twitch::TwitchClient;
 use std::path::Path;
 use twba_local_db::prelude::*;
 use twba_local_db::re_exports::sea_orm::ActiveValue::Set;
-use twba_local_db::re_exports::sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter, QuerySelect};
+use twba_local_db::re_exports::sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter, QueryOrder, QuerySelect};
 
 #[derive(Debug)]
 pub struct DownloaderClient {
@@ -22,6 +22,7 @@ impl DownloaderClient {
             Path::new(self.twitch_client.config.download_folder_path.as_str());
         let videos = Videos::find()
             .filter(VideosColumn::Status.eq(Status::NotStarted))
+            .order_by_asc(VideosColumn::CreatedAt)
             .limit(self.twitch_client.config.max_items_to_process)
             .all(&self.db)
             .await?;

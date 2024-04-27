@@ -43,7 +43,7 @@ impl TwitchClient {
     ) -> Result<PathBuf> {
         let video_id = video_id.into();
         let folder_path = output_folder.join(id.to_string());
-        let final_path = output_folder.join(format!("{}.mp4", video_id));
+        let final_path = output_folder.join(format!("{}.mp4", id));
         if final_path.exists() {
             return Err(DownloadFileError::TargetAlreadyExists(final_path).into());
         }

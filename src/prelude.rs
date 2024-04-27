@@ -4,9 +4,10 @@ use std::fmt::Debug;
 pub(crate) use tracing::{debug, error, info, trace, warn};
 pub(crate) use twba_backup_config::prelude::*;
 
+pub(crate) use std::error::Error as StdError;
 pub(crate) use std::result::Result as StdResult;
 
-/// Just a wrapper around Into<String> that implements Debug.
+/// Just a wrapper around Into\<String\> that implements Debug.
 ///
 /// This is just for convenience so we dont need to write
 /// '`impl Into<String> + Debug`' everywhere.
