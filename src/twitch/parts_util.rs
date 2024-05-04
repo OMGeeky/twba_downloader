@@ -1,4 +1,5 @@
 use super::*;
+use tokio::io::BufWriter;
 
 /// Sorts the parts by their number.
 ///  
@@ -43,21 +44,25 @@ pub fn sort_parts(files: &mut [PathBuf]) {
 pub async fn combine_parts_to_single_ts(files: &[PathBuf], target: &Path) -> Result<()> {
     debug!("combining all parts of video");
     debug!("part amount: {}", files.len());
-    let mut target = fs::File::create(target)
+    let target = fs::File::create(target)
         .await
         .map_err(DownloadFileError::FileCreation)?;
+    let mut target_buf = BufWriter::new(target);
     for file_path in files {
         trace!("{:?}", file_path.file_name());
         let mut file = fs::File::open(&file_path)
             .await
             .map_err(DownloadFileError::Read)?;
-        tokio::io::copy(&mut file, &mut target)
+
+        tokio::io::copy(&mut file, &mut target_buf)
             .await
             .map_err(DownloadFileError::Write)?;
+
         tokio::fs::remove_file(&file_path)
             .await
             .map_err(DownloadFileError::Write)?;
     }
+    target_buf.flush().await.map_err(DownloadFileError::Write)?;
 
     Ok(())
 }
