@@ -3,7 +3,10 @@ use crate::twitch::TwitchClient;
 use std::path::Path;
 use twba_local_db::prelude::*;
 use twba_local_db::re_exports::sea_orm::ActiveValue::Set;
-use twba_local_db::re_exports::sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter, QueryOrder, QuerySelect};
+use twba_local_db::re_exports::sea_orm::{
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
+    QueryOrder, QuerySelect,
+};
 
 #[derive(Debug)]
 pub struct DownloaderClient {
@@ -89,6 +92,7 @@ impl DownloaderClient {
             Err(err) => {
                 error!("Could not download video: {:?}", err);
                 video.status = Set(Status::Failed);
+                video.fail_reason = Set(Some(err.to_string()));
                 video.clone().update(&self.db).await?;
                 Err(err)
             }
