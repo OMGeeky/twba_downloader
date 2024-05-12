@@ -2,7 +2,7 @@ pub use crate::errors::DownloaderError;
 // pub(crate) use anyhow::Result;
 use std::fmt::Debug;
 pub(crate) use tracing::{debug, error, info, trace, warn};
-pub(crate) use twba_backup_config::prelude::*;
+pub(crate) use twba_common::prelude::*;
 
 pub(crate) use std::error::Error as StdError;
 pub(crate) use std::result::Result as StdResult;
